@@ -13,6 +13,7 @@ class Home extends Component {
     const { products, loading } = this.props;
     return (
       <div>
+        <h1>Hola</h1>
         {
           products.map(({
             id, title, prize, description,
