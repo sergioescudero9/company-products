@@ -1,14 +1,14 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import homeReducer from './Home';
+import productsReducer from './Products';
 
 const rootReducer = combineReducers({
-  homeReducer,
+  productsReducer,
 });
 
 const store = createStore(
   rootReducer,
-  applyMiddleware(thunk)
+  applyMiddleware(thunk),
 );
 
 export default store;

@@ -6,7 +6,7 @@
   text-align: center;
 }
 .container {
-  padding: 16px;
+  padding: 26px;
 }
 
 .header-content{
@@ -23,4 +23,23 @@
 }
 .header-links:hover{
   background: red;
+}
+
+.product-card{
+  margin-bottom: 26px;
+}
+
+.card-image{
+  width: 20%;  
+  margin: 0 5%;
+}
+.card-description{
+  width: 70%;  
+  display: inline-block;
+  vertical-align: top;
+}
+
+.bold-card-description{
+  font-weight: bold;
+  margin-right: 6px;
 }

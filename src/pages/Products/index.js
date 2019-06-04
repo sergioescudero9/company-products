@@ -2,70 +2,94 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-  Card, CardTitle, CardText, Slider,
+  Card, CardTitle, CardText,
 } from 'react-md';
-import * as actions from '../../state/Home/action';
+import Value from '../../components/Value';
+import * as actions from '../../state/Products/action';
+import { validCategories } from '../../utils';
 
-class Home extends Component {
+class Products extends Component {
   componentDidMount() {
-    const { loadProducts } = this.props;
-    loadProducts();
+    const { default: loadProducts, match: { params: { category } } } = this.props;
+    loadProducts(category);
   }
 
   render() {
-    const { products, loading } = this.props;
-    console.log(loading);
+    const { products, loading, category } = this.props;
+    const upperCaseCategory = category.toUpperCase();
+    const isValidCategory = validCategories.includes(upperCaseCategory);
+    let filteredProducts = products;
+    // categories.map((sub) => sub.toUpperCase())
+    if (isValidCategory) {
+      filteredProducts = products.filter(({ categories }) => (
+        categories.map(sub => sub.toUpperCase()).includes(upperCaseCategory)
+      ));
+    }
     return (
-      <div>
-        <Card className="md-block-centered">
-          <CardTitle title="Using CardTitle" subtitle="With CardText" />
-          <CardText>
-            <p>
-              The component is really just useful for displaying any
-              content with some additional padding.
-            </p>
-            <Slider id="example-card-slider" />
-          </CardText>
-        </Card>
-        <div>
-          <h1>Hola</h1>
-          {
-            products.map(({
-              id, title, prize, description,
-            }) => (
-              <div key={id}>
-                <h2>{title}</h2>
-                <p>{description}</p>
-                <p>{prize}</p>
-              </div>
-            ))
-          }
-        </div>
-      </div>
+      <section>
+        <h5>
+          Showing: 
+          {filteredProducts.length}
+          -
+          Hiddden:
+          {products.length - filteredProducts.length}
+        </h5>
+        {
+          filteredProducts.map(({
+            id, name, description, categories, photo, stock, price, brand,
+          }) => (
+            <Card key={id} className="md-block-centered product-card">
+              <CardTitle title={name} subtitle={`${categories.join(',')} - ${brand}`} />
+              <CardText>
+                <div>
+                  <img className="card-image" alt="product" src={photo} />
+                  <div className="card-description">
+                    <p>{description}</p>
+                    <Value name="Stock" value={stock} />
+                    <Value name="Price" value={price} />
+                  </div>
+                </div>
+              </CardText>
+            </Card>
+          ))
+        }
+      </section>
     );
   }
 }
 
 const mapStateToProps = state => (
   {
-    loading: state.homeReducer.loading,
-    products: state.homeReducer.products,
+    loading: state.productsReducer.loading,
+    products: state.productsReducer.products,
+    category: state.productsReducer.category,
   }
 );
 
-Home.propTypes = {
-  loadProducts: PropTypes.func.isRequired,
+Products.propTypes = {
+  default: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  category: PropTypes.string,
   products: PropTypes.arrayOf(PropTypes.exact({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
     stock: PropTypes.number.isRequired,
     brand: PropTypes.string.isRequired,
     photo: PropTypes.string.isRequired,
     categories: PropTypes.arrayOf(PropTypes.string),
   }).isRequired).isRequired,
-  loading: PropTypes.bool.isRequired,
+  match: PropTypes.exact({
+    path: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    isExact: PropTypes.bool.isRequired,
+    params: PropTypes.exact({
+      category: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
 };
 
-export default connect(mapStateToProps, actions)(Home);
+Products.defaultProps = { category: '' };
+
+export default connect(mapStateToProps, actions)(Products);

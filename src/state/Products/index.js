@@ -7,9 +7,10 @@ import {
 const initialState = {
   loading: false,
   products: [],
+  category: '',
 };
 
-function home(state = initialState, { type, products }) {
+function home(state = initialState, { type, products, category }) {
   switch (type) {
     case HOME_LOADING:
       return {
@@ -20,6 +21,7 @@ function home(state = initialState, { type, products }) {
       return {
         ...state,
         products,
+        category,
         loading: false,
       };
     case PRODUCTS_LOADED_FAILED:

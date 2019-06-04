@@ -17,4 +17,8 @@ const links = [
   },
 ];
 
-export { links as default };
+const validCategories =  [
+  'TECH', 'SERVICES', 'OFFICE',
+];
+
+export { links, validCategories };

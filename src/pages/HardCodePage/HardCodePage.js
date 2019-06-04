@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import links from '../../utils/links';
+import { links } from '../../utils';
 
 function HardCodePage({ pageName }) {
   return (
