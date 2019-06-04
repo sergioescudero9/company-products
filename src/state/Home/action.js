@@ -20,7 +20,8 @@ const loadProductFailed = error => ({
 
 const loadProducts = () => (dispatch) => {
   dispatch(loadRequest());
-  fetch('http://localhost:3004/products')
+  
+  fetch(`${process.env.REACT_APP_END_POINT}products`)
     .then(response => response.json())
     .then((products) => {
       dispatch(loadProductSuccess(products));
