@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { NavigationDrawer } from 'react-md';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import Links from './components/Links';
 import store from './state';
 import './App.css';
 
@@ -15,12 +16,14 @@ function App() {
         <BrowserRouter>
           <NavigationDrawer
             drawerTitle="react-md with CRA"
-            toolbarTitle={<div>Hola</div>}
+            toolbarTitle={Links}
           >
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route component={NoMatch} />
-            </Switch>
+            <div className="container">
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route component={NoMatch} />
+              </Switch>
+            </div>
           </NavigationDrawer>
         </BrowserRouter>
       </Suspense>
