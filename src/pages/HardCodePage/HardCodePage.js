@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { Button } from 'react-md';
 import PropTypes from 'prop-types';
 import { links } from '../../utils';
 
@@ -9,7 +10,9 @@ function HardCodePage({ pageName }) {
       <h1>{pageName}</h1>
       {
         links.map(({ to, title }) => (
-          <Link key={to} to={to}>{title}</Link>
+          <NavLink className="app-links" key={to} to={to}>
+            <Button flat>{title}</Button>
+          </NavLink>
         ))
       }
     </>

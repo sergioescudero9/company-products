@@ -4,18 +4,19 @@ import PropTypes from 'prop-types';
 import {
   Card, CardTitle, CardText,
 } from 'react-md';
+import MDSpinner from 'react-md-spinner';
 import Value from '../../components/Value';
 import * as actions from '../../state/Products/action';
 import { validCategories } from '../../utils';
 
 class Products extends Component {
   componentDidMount() {
-    const { default: loadProducts, match: { params: { category } } } = this.props;
-    loadProducts(category);
+    const { default: loadProducts } = this.props;
+    loadProducts();
   }
 
   render() {
-    const { products, loading, category } = this.props;
+    const { products, loading, match: { params: { category = '' } } } = this.props;
     const upperCaseCategory = category.toUpperCase();
     const isValidCategory = validCategories.includes(upperCaseCategory);
     let filteredProducts = products;
@@ -26,34 +27,38 @@ class Products extends Component {
       ));
     }
     return (
-      <section>
-        <h5>
-          Showing: 
-          {filteredProducts.length}
-          -
-          Hiddden:
-          {products.length - filteredProducts.length}
-        </h5>
-        {
-          filteredProducts.map(({
-            id, name, description, categories, photo, stock, price, brand,
-          }) => (
-            <Card key={id} className="md-block-centered product-card">
-              <CardTitle title={name} subtitle={`${categories.join(',')} - ${brand}`} />
-              <CardText>
-                <div>
-                  <img className="card-image" alt="product" src={photo} />
-                  <div className="card-description">
-                    <p>{description}</p>
-                    <Value name="Stock" value={stock} />
-                    <Value name="Price" value={price} />
-                  </div>
-                </div>
-              </CardText>
-            </Card>
-          ))
-        }
-      </section>
+      loading
+        ? <MDSpinner />
+        : (
+          <section>
+            <h5>
+              Showing:
+              {filteredProducts.length}
+              -
+              Hiddden:
+              {products.length - filteredProducts.length}
+            </h5>
+            {
+              filteredProducts.map(({
+                id, name, description, categories, photo, stock, price, brand,
+              }) => (
+                <Card key={id} className="md-block-centered product-card">
+                  <CardTitle title={name} subtitle={`${categories.join(',')} - ${brand}`} />
+                  <CardText>
+                    <div>
+                      <img className="card-image" alt="product" src={photo} />
+                      <div className="card-description">
+                        <p>{description}</p>
+                        <Value name="Stock" value={stock} />
+                        <Value name="Price" value={price} />
+                      </div>
+                    </div>
+                  </CardText>
+                </Card>
+              ))
+            }
+          </section>
+        )
     );
   }
 }
@@ -69,7 +74,6 @@ const mapStateToProps = state => (
 Products.propTypes = {
   default: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  category: PropTypes.string,
   products: PropTypes.arrayOf(PropTypes.exact({
     id: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
@@ -90,6 +94,5 @@ Products.propTypes = {
   }).isRequired,
 };
 
-Products.defaultProps = { category: '' };
 
 export default connect(mapStateToProps, actions)(Products);

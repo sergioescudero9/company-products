@@ -1,13 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { links } from '../../utils';
 
 function Links() {
   return (
     <>
       {
-        links.map(({ to, title }) => (
-          <Link className="header-links" key={to} to={to}>{title}</Link>
+        links.map(({ to, title, exact }) => (
+          <NavLink exact={exact} activeClassName="is-active" className="header-links" key={to} to={to}>{title}</NavLink>
         ))
       }
     </>

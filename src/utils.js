@@ -2,6 +2,7 @@ const links = [
   {
     title: 'Home',
     to: '/',
+    exact: true,
   },
   {
     title: 'Products',
@@ -20,5 +21,20 @@ const links = [
 const validCategories =  [
   'TECH', 'SERVICES', 'OFFICE',
 ];
+const validCategoriesWithIcon = [
+  {
+    name: 'TECH',
+    icon: 'computer',
+  },
+  {
+    name: 'SERVICES',
+    icon: 'build',
 
-export { links, validCategories };
+  },
+  {
+    name: 'OFFICE',
+    icon: 'folder',
+  },
+];
+
+export { links, validCategories, validCategoriesWithIcon };
