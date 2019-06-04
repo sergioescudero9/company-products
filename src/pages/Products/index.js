@@ -20,7 +20,6 @@ class Products extends Component {
     const upperCaseCategory = category.toUpperCase();
     const isValidCategory = validCategories.includes(upperCaseCategory);
     let filteredProducts = products;
-    // categories.map((sub) => sub.toUpperCase())
     if (isValidCategory) {
       filteredProducts = products.filter(({ categories }) => (
         categories.map(sub => sub.toUpperCase()).includes(upperCaseCategory)
@@ -31,6 +30,8 @@ class Products extends Component {
         ? <MDSpinner />
         : (
           <section>
+            { isValidCategory
+            && (
             <h5>
               Showing:
               {filteredProducts.length}
@@ -38,6 +39,8 @@ class Products extends Component {
               Hiddden:
               {products.length - filteredProducts.length}
             </h5>
+            )
+            }
             {
               filteredProducts.map(({
                 id, name, description, categories, photo, stock, price, brand,

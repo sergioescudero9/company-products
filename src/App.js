@@ -7,6 +7,7 @@ import navItems from './components/NavItems';
 import Home from './pages/Home';
 import Clients from './pages/Clients';
 import Products from './pages/Products';
+import Contact from './pages/Contact';
 import NoMatch from './pages';
 import store from './state';
 import './App.css';
@@ -25,6 +26,7 @@ function App() {
               <Route exact path="/products" component={Products} />
               <Route exact path="/products/:category" component={Products} />
               <Route exact path="/clients" component={Clients} />
+              <Route exact path="/contact" component={Contact} />
               <Route component={NoMatch} />
             </Switch>
           </div>
