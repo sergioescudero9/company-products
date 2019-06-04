@@ -3,7 +3,7 @@ import HardCodePage from '../HardCodePage/HardCodePage';
 
 function Home() {
   return (
-    <HardCodePage pageName="Home" />
+    <HardCodePage pageName="Clients" />
   );
 }
 

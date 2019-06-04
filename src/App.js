@@ -7,6 +7,8 @@ import store from './state';
 import './App.css';
 
 const Home = React.lazy(() => import('./pages/Home'));
+const Clients = React.lazy(() => import('./pages/Clients'));
+const Products = React.lazy(() => import('./pages/Products'));
 const NoMatch = React.lazy(() => import('./pages'));
 
 function App() {
@@ -15,12 +17,13 @@ function App() {
       <Suspense fallback={<div>Loading...</div>}>
         <BrowserRouter>
           <NavigationDrawer
-            drawerTitle="react-md with CRA"
-            toolbarTitle={Links}
+            toolbarTitle={<div className="header-content"><Links/></div>}
           >
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Home} />
+                <Route exact path="/products" component={Products} />
+                <Route exact path="/clients" component={Clients} />
                 <Route component={NoMatch} />
               </Switch>
             </div>
