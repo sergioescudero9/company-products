@@ -5,9 +5,6 @@
 $secondary-color: #8B8B8B;
 $font-color: #3D3E40;
 
-.App {
-  text-align: center;
-}
 .container {
   padding: 26px;
 }
@@ -17,44 +14,8 @@ $font-color: #3D3E40;
   width: 100%;
   justify-content: center;
 }
-.header-links{
-  text-decoration: none;
-  margin: 0 30px;
-  text-transform: uppercase;
-  font-size: 14px;
-  padding: 0 10px;
-  color: $font-color;
-}
-.header-links:hover{
-  background: $secondary-color;
-}
-
-.product-card{
-  margin-bottom: 26px;
-}
-
-.card-image{
-  width: 20%;  
-  margin: 0 5%;
-}
-.card-description{
-  width: 70%;  
-  display: inline-block;
-  vertical-align: top;
-}
-
-.bold-card-description{
-  font-weight: bold;
-  margin-right: 6px;
-}
-
 
 .is-active{
   background: $md-primary-color;
   display: block;
 }
-
-.aside-links, .app-links{
-  text-decoration: none;
-}
-

@@ -1,0 +1,11 @@
+.header-links{
+  text-decoration: none;
+  margin: 0 30px;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 0 10px;
+  color: $font-color;
+}
+.header-links:hover{
+  background: $secondary-color;
+}
