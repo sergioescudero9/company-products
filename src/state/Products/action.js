@@ -8,10 +8,9 @@ const loadRequest = () => ({
   type: HOME_LOADING,
 });
 
-const loadProductSuccess = (products, category) => ({
+const loadProductSuccess = products => ({
   type: PRODUCTS_LOADED_SUCCESS,
   products,
-  category,
 });
 
 const loadProductFailed = error => ({
@@ -19,12 +18,12 @@ const loadProductFailed = error => ({
   error,
 });
 
-const loadProducts = category => (dispatch) => {
+const loadProducts = () => (dispatch) => {
   dispatch(loadRequest());
   fetch(`${process.env.REACT_APP_END_POINT}products`)
     .then(response => response.json())
     .then((products) => {
-      dispatch(loadProductSuccess(products, category));
+      dispatch(loadProductSuccess(products));
     }).catch((error) => {
       dispatch(loadProductFailed(error));
     });

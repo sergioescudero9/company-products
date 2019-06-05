@@ -1,0 +1,13 @@
+.center-div{
+  display: flex;
+  justify-content: center;
+}
+.center-div > div{
+  display: inline-block;
+  width: 50%;
+  background: white;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px black solid;
+}
+

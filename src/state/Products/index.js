@@ -7,10 +7,9 @@ import {
 const initialState = {
   loading: false,
   products: [],
-  category: '',
 };
 
-function home(state = initialState, { type, products, category }) {
+function product(state = initialState, { type, products }) {
   switch (type) {
     case HOME_LOADING:
       return {
@@ -21,7 +20,6 @@ function home(state = initialState, { type, products, category }) {
       return {
         ...state,
         products,
-        category,
         loading: false,
       };
     case PRODUCTS_LOADED_FAILED:
@@ -34,4 +32,4 @@ function home(state = initialState, { type, products, category }) {
   }
 }
 
-export default home;
+export default product;

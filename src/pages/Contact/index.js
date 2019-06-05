@@ -3,49 +3,58 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { TextField, Button } from 'react-md';
 import MDSpinner from 'react-md-spinner';
-import * as actions from '../../state/Products/action';
+import './Contact.css';
 
-const fields = [
-  {
-    placeholder: 'Your name...',
-    maxLenth: 255,
-    errorMessage: 'Please write down your first name',
-  },
-  {
-    placeholder: 'Your last name...',
-    maxLenth: 255,
-    errorMessage: 'Please write down your last name',
-  },
-  {
-    placeholder: 'Your email address...',
-    maxLenth: 255,
-    errorMessage: 'Don’t forget to tell us what your email address is',
-  },
-  {
-    placeholder: 'Let us know your concerns!',
-    maxLenth: 500,
-    errorMessage: 'Don’t forget to write something to use!',
-  },
-];
+import * as actions from '../../state/Contact/action';
 
-class Products extends Component {
-  componentDidMount() {
-    const { default: loadProducts } = this.props;
-    loadProducts();
+class Contact extends Component {
+  onBlur = ({ target: { value }}, key) => {
+    this.props.updateFieldContact(key, value)
+  }
+
+  onClick = () => {
+    this.props.saveContact();
   }
 
   render() {
-    const { loading, errors } = this.props;
-    const disableButton = !errors;
+    const errors = {};
+    let diabledButton = true;
+    const { loading, fields } = this.props;
     return (
       loading
         ? <MDSpinner />
         : (
-          <div>
-            {
-              fields.map(({ placeholder }) => <TextField placeholder={placeholder} />)
-            }
-            <Button disabled raised>Hello, World!</Button>
+          <div className="center-div">
+            <div>
+              {
+                Object.keys(fields).map((key) => {
+                  const {
+                    placeholder,
+                    type = 'text',
+                    value = '',
+                    maxLenth,
+                    touched,
+                    errorMessage,
+                  } = fields[key];
+                  errors[key] = touched && !value ? errorMessage : 
+                  (touched && value.length > maxLenth ? `The max value of characters is ${maxLenth}` : '');
+                  diabledButton = diabledButton && !errors[key] && touched;
+                  console.log(diabledButton, errors, touched)
+                  return (
+                    <TextField
+                      id={key}
+                      onBlur={event => this.onBlur(event, key)}
+                      key={key}
+                      error={!!errors[key]}
+                      errorText={errors[key]}
+                      placeholder={placeholder}
+                      type={type}
+                    />
+                  );
+                })
+              }
+              <Button disabled={!diabledButton} raised onClick={this.onClick}>Hello, World!</Button>
+            </div>
           </div>
         )
     );
@@ -54,34 +63,30 @@ class Products extends Component {
 
 const mapStateToProps = state => (
   {
-    loading: state.productsReducer.loading,
-    products: state.productsReducer.products,
-    category: state.productsReducer.category,
+    loading: state.contactReducer.loading,
+    fields: state.contactReducer.fields,
   }
 );
 
-Products.propTypes = {
-  default: PropTypes.func.isRequired,
+const fieldPropTypes = PropTypes.shape({
+  placeholder: PropTypes.string.isRequired,
+  maxLenth: PropTypes.number.isRequired,
+  errorMessage: PropTypes.string.isRequired,
+  touched: PropTypes.bool,
+  value: PropTypes.string,
+}).isRequired;
+
+Contact.propTypes = {
+  updateFieldContact: PropTypes.func.isRequired,
+  saveContact: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  products: PropTypes.arrayOf(PropTypes.exact({
-    id: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.string.isRequired,
-    stock: PropTypes.number.isRequired,
-    brand: PropTypes.string.isRequired,
-    photo: PropTypes.string.isRequired,
-    categories: PropTypes.arrayOf(PropTypes.string),
-  }).isRequired).isRequired,
-  match: PropTypes.exact({
-    path: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-    isExact: PropTypes.bool.isRequired,
-    params: PropTypes.exact({
-      category: PropTypes.string,
-    }).isRequired,
+  fields: PropTypes.exact({
+    firstname: fieldPropTypes,
+    lastname: fieldPropTypes,
+    email: fieldPropTypes,
+    subject: fieldPropTypes,
   }).isRequired,
 };
 
 
-export default connect(mapStateToProps, actions)(Products);
+export default connect(mapStateToProps, actions)(Contact);
