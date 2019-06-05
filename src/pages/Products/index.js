@@ -8,6 +8,7 @@ import MDSpinner from 'react-md-spinner';
 import Value from '../../components/Value';
 import * as actions from '../../state/Products/action';
 import { validCategories } from '../../utils';
+import './Product.css';
 
 class Products extends Component {
   componentDidMount() {
